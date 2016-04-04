@@ -1,0 +1,106 @@
+extends layout
+block breadcrumb
+    #banner.page-header
+        .row
+            h3
+                Prezigen
+        ul.breadcrumb
+            li Home
+            li Products
+            li Personalised Chocolate
+block content
+    .row
+        .col-xs-12.col-sm-6
+            div.carousel.slide(id='prodImages' data-ride='carousel')
+                ol.carousel-indicators
+                    li(data-target='#prodImages' data-slide-to='0' class='active')
+                    li(data-target='#prodImages' data-slide-to='1' )
+                    li(data-target='#prodImages' data-slide-to='2' )
+                div.carousel-inner(role='listbox')
+                    div.item.active
+                        img(src='/images/sample_product.jpg' )
+                        div.carousel-caption
+                            p Cute koala, comes in grey, dark grey and light grey colors for your selection.
+                    div.item
+                        img(src='/images/sample_product2.jpg' )
+                        div.carousel-caption
+                            p Jelly fish can be poisonous.
+                    div.item
+                        img(src='/images/sample_product3.jpg')
+                        div.carousel-caption
+                            p Penguins like to move in groups.
+                a.left.carousel-control(href='#prodImages' role='button' data-slide='prev')
+                    span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+                    span.sr-only Previous
+                a.right.carousel-control(href='#prodImages' role='button' data-slide='next')
+                    span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+                    span.sr-only Next
+        .col-xs-12.col-sm-6
+            h3 Personalised Chocolate
+            p.rating
+                span.glyphicon.glyphicon-star
+                span.glyphicon.glyphicon-star
+                span.glyphicon.glyphicon-star
+                span.glyphicon.glyphicon-star-empty
+                span.glyphicon.glyphicon-star-empty
+                span.badge.pull-right.badge-default $29.95 
+
+            .panel.panel-primary
+                .panel-heading
+                    h2.panel-title Description
+                .panel-body
+                    h5 Dimension
+                    p W x L x H = 16cm x 20cm x 1.5cm
+                    h5 Weight
+                    p 120g
+                    h5 Description
+                    Box of Swedish dark chocolate with personalised letters, messages and wrapping.
+
+                    p.lead Personalised Chocolate box is included in our catalog because it's a nice little gift and flexible enough to give to anyone.
+                    p If you have tried it and like it - or if you don't - please leave a review to help other people just like you.
+
+                    span.label.label-warning 
+                        span.glyphicon.glyphicon-ok 
+                        | &nbsp; Cold storage
+                    | &nbsp;
+                    span.label.label-warning 
+                        span.glyphicon.glyphicon-ok 
+                        | &nbsp; Food
+                    | &nbsp;
+                    span.label.label-warning 
+                        span.glyphicon.glyphicon-ok 
+                        | &nbsp; Perishable
+                    | &nbsp;
+    
+            .panel.panel-primary.review-panel
+                .panel-heading
+                    a.btn.btn-default.pull-right(href='/product/review/new') Add review
+                    h2.panel-title Customer review
+                .panel-body.review-container
+                    .row
+                        .review
+                            .well.well-sm.review-header
+                                span.rating
+                                    span.glyphicon.glyphicon-star
+                                    span.glyphicon.glyphicon-star
+                                    span.glyphicon.glyphicon-star
+                                    span.glyphicon.glyphicon-star
+                                    span.glyphicon.glyphicon-star
+                                span.reviewAuthor Romen Law
+                                small.reviewTimestamp 28 March 2016
+                            .col-xs-12
+                                p What a treat! It's really a great gift for anyone.
+                    .row
+                        .review
+                            .well.well-sm.review-header
+                                span.rating
+                                    span.glyphicon.glyphicon-star
+                                    span.glyphicon.glyphicon-star
+                                    span.glyphicon.glyphicon-star
+                                    span.glyphicon.glyphicon-star-empty
+                                    span.glyphicon.glyphicon-star-empty
+                                span.reviewAuthor Jane Smith
+                                small.reviewTimestamp 20 March 2016
+                            .col-xs-12
+                                p Looks great and taste great. The only draw back is the extra calories.
+       

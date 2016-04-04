@@ -3,7 +3,7 @@ html
   head
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title= title
-    link(rel='stylesheet', href='/bootstrap/css/amelia.bootstrap.min.css')
+    link(rel='stylesheet', href='/bootstrap/css/amelia.bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel="apple-touch-icon", sizes="57x57", href="/images/favicon/apple-icon-57x57.png")
     link(rel="apple-touch-icon", sizes="60x60", href="/images/favicon/apple-icon-60x60.png")
@@ -23,7 +23,32 @@ html
     meta(name="msapplication-TileImage", content="/images/favicon/ms-icon-144x144.png")
     meta(name="theme-color", content="#ffffff")
   body
-    block content
+    .navbar.navbar-default.navbar-fixed-top
+        .container
+            .navbar-header
+                a.navbar-brand(href='/') Prezigen
+                button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar-main')
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+            #navbar-main.navbar-collapse.collapse
+                ul.nav.navbar-nav
+                    li
+                        a(href='/about/') About
+    .container
+        block breadcrumb
+    .container
+        block content
+        
+        footer
+            .row
+                .col-xs-12.col-sm-6
+                    small Terms &amp; Conditions |
+                    | &nbsp;
+                    small Privacy |
+                    | &nbsp;
+                .col-xs-12.col-sm-6.text-right
+                    small &copy; Prezigen 2016. All rights reserved.
   
-  script(src='/javascripts/jquery-2.2.2.min.js')
-  script(src='/bootstrap/js/bootstrap.min.js')
+    script(src='/javascripts/jquery-2.2.2.min.js')
+    script(src='/bootstrap/js/bootstrap.min.js')
