@@ -1,106 +1,94 @@
 extends layout
+include _includes/sharedHTMLfunctions.jade
+
 block breadcrumb
     #banner.page-header
         .row
-            h3
-                Prezigen
+            h1= pageHeader.title
         ul.breadcrumb
             li Home
             li Products
-            li Personalised Chocolate
+            li= product.name
 block content
-    .row
+    .row 
+        //- carousel
         .col-xs-12.col-sm-6
             div.carousel.slide(id='prodImages' data-ride='carousel')
                 ol.carousel-indicators
-                    li(data-target='#prodImages' data-slide-to='0' class='active')
-                    li(data-target='#prodImages' data-slide-to='1' )
-                    li(data-target='#prodImages' data-slide-to='2' )
+                    each img, index in product.photos
+                        if(index==0)
+                            li(data-target='#prodImages' data-slide-to='0' class='active')
+                        else
+                            li(data-target='#prodImages' data-slide-to='#{index}' )
                 div.carousel-inner(role='listbox')
-                    div.item.active
-                        img(src='/images/sample_product.jpg' )
-                        div.carousel-caption
-                            p Cute koala, comes in grey, dark grey and light grey colors for your selection.
-                    div.item
-                        img(src='/images/sample_product2.jpg' )
-                        div.carousel-caption
-                            p Jelly fish can be poisonous.
-                    div.item
-                        img(src='/images/sample_product3.jpg')
-                        div.carousel-caption
-                            p Penguins like to move in groups.
+                    each img, index in product.photos
+                        if (index==0) 
+                            div.item.active
+                                img(src='#{img.url}' )
+                                div.carousel-caption= img.description
+                        else 
+                            div.item
+                                img(src='#{img.url}' )
+                                div.carousel-caption= img.description
                 a.left.carousel-control(href='#prodImages' role='button' data-slide='prev')
                     span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
                     span.sr-only Previous
                 a.right.carousel-control(href='#prodImages' role='button' data-slide='next')
                     span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
                     span.sr-only Next
+
+        
         .col-xs-12.col-sm-6
-            h3 Personalised Chocolate
-            p.rating
-                span.glyphicon.glyphicon-star
-                span.glyphicon.glyphicon-star
-                span.glyphicon.glyphicon-star
-                span.glyphicon.glyphicon-star-empty
-                span.glyphicon.glyphicon-star-empty
-                span.badge.pull-right.badge-default $29.95 
-
-            .panel.panel-primary
-                .panel-heading
-                    h2.panel-title Description
-                .panel-body
-                    h5 Dimension
-                    p W x L x H = 16cm x 20cm x 1.5cm
-                    h5 Weight
-                    p 120g
+            h3= product.name
+            if (product.reviews && product.reviews.length>0)
+                +outputRating(product.reviews.reduce((sum, cur) => (sum+cur.rating),0) / product.reviews.length)
+                | &nbsp; #{product.reviews.length} reviews
+            span.badge.pull-right.badge-default= product.price
+            //- selectable properties
+            if (product.selectableProperties && product.selectableProperties.length>0)
+                form.form-horizontal(action='#', method='GET', role='form')
+                    each prop in product.selectableProperties.sort((a,b)=>(a.sortOrder-b.sortOrder))
+                        .form-group
+                            label.col-xs-10.col-sm-3.control-label(for='#{prop.property.name}')= prop.property.name
+                            .col-xs-12.col-sm-9
+                                if(prop.property.value.constructor === Array && prop.property.value.length>0)
+                                    select.form-control.input-sm(name='#{prop.property.name}' id='#{prop.property.name}')
+                                        each val in prop.property.value
+                                            option= val
+                                else
+                                    input.form-control(name='#{prop.property.name}' id='#{prop.property.name}' required)= prop.property.value
+                    button.btn.btn-default.pull-right Buy
+                    br
+            //- tabs for product description and customer review
+            ul.nav.nav-tabs
+                li.active
+                    a(data-toggle='tab' href='#desc') Description
+                li
+                    a(data-toggle='tab' href='#reviews') Reviews
+            .tab-content
+                .tab-pane.fade.in.active(id="desc")
                     h5 Description
-                    Box of Swedish dark chocolate with personalised letters, messages and wrapping.
-
-                    p.lead Personalised Chocolate box is included in our catalog because it's a nice little gift and flexible enough to give to anyone.
-                    p If you have tried it and like it - or if you don't - please leave a review to help other people just like you.
-
-                    span.label.label-warning 
-                        span.glyphicon.glyphicon-ok 
-                        | &nbsp; Cold storage
-                    | &nbsp;
-                    span.label.label-warning 
-                        span.glyphicon.glyphicon-ok 
-                        | &nbsp; Food
-                    | &nbsp;
-                    span.label.label-warning 
-                        span.glyphicon.glyphicon-ok 
-                        | &nbsp; Perishable
-                    | &nbsp;
-    
-            .panel.panel-primary.review-panel
-                .panel-heading
+                    p= product.description
+                    
+                    //- display product display properties
+                    each prop in product.displayedProperties.sort((a,b)=>(a.sortOrder-b.sortOrder))
+                        h5= prop.property.name
+                        p= prop.property.value
+                    each tag in product.tags
+                        span.label.label-warning= tag
+                        | &nbsp;
+                .tab-pane.fade.in(id="reviews")
+                    br
                     a.btn.btn-default.pull-right(href='/product/review/new') Add review
-                    h2.panel-title Customer review
-                .panel-body.review-container
-                    .row
-                        .review
-                            .well.well-sm.review-header
-                                span.rating
-                                    span.glyphicon.glyphicon-star
-                                    span.glyphicon.glyphicon-star
-                                    span.glyphicon.glyphicon-star
-                                    span.glyphicon.glyphicon-star
-                                    span.glyphicon.glyphicon-star
-                                span.reviewAuthor Romen Law
-                                small.reviewTimestamp 28 March 2016
-                            .col-xs-12
-                                p What a treat! It's really a great gift for anyone.
-                    .row
-                        .review
-                            .well.well-sm.review-header
-                                span.rating
-                                    span.glyphicon.glyphicon-star
-                                    span.glyphicon.glyphicon-star
-                                    span.glyphicon.glyphicon-star
-                                    span.glyphicon.glyphicon-star-empty
-                                    span.glyphicon.glyphicon-star-empty
-                                span.reviewAuthor Jane Smith
-                                small.reviewTimestamp 20 March 2016
-                            .col-xs-12
-                                p Looks great and taste great. The only draw back is the extra calories.
-       
+                    h2.panel-title Customer Review
+                    br
+                    for review in product.reviews
+                        .row
+                            .review
+                                .well.well-sm.review-header
+                                    span.rating
+                                        +outputRating(review.rating)                 
+                                    span.reviewAuthor= review.userName
+                                    small.reviewTimestamp= review.date
+                                .col-xs-12
+                                    p= review.comment
