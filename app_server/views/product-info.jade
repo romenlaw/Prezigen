@@ -4,7 +4,7 @@ include _includes/sharedHTMLfunctions.jade
 block breadcrumb
     #banner.page-header
         .row
-            h1= pageHeader.title
+            h1
         ul.breadcrumb
             li Home
             li Products
@@ -67,7 +67,6 @@ block content
                     a(data-toggle='tab' href='#reviews') Reviews
             .tab-content
                 .tab-pane.fade.in.active(id="desc")
-                    h5 Description
                     p= product.description
                     
                     //- display product display properties

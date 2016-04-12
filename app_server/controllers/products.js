@@ -11,7 +11,7 @@
 		description : "Personalised Chocolate box is included in our catalog because it's a nice little gift and flexible enough to give to anyone. If you have tried it and like it - or if you don't - please leave a review to help other people just like you.",
 		tags : ['food & drink'],
 		displayedProperties : [
-			{ sortOrder: 1, property : { name: "What is in the box:", value: "20 pieces of Belgian dark or white chocolate with letters arranged into your personalised message to that special someone."}},
+			{ sortOrder: 1, property : { name: "What\'s in the box?", value: "20 pieces of Belgian dark or white chocolate with letters arranged into your personalised message to that special someone."}},
 			{ sortOrder: 3, property : { name: "Weight: ", value : "120g"}},
 			{ sortOrder: 2, property : { name: "Dimension (L x W x H): ", value: "30cm x 20cm x 1.5cm"}}
 		],
@@ -20,7 +20,6 @@
 			{ property : {name: "Personalised Message", value : ""}, sortOrder: 1}
 			
 		],
-		rating : 4,
 		reviews : [
 			{
 				userName : 'joe1983',
