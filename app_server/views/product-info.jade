@@ -13,13 +13,15 @@ block content
     .row 
         //- carousel
         .col-xs-12.col-sm-6
+            .error= message
             div.carousel.slide(id='prodImages' data-ride='carousel')
-                ol.carousel-indicators
-                    each img, index in product.photos
-                        if(index==0)
-                            li(data-target='#prodImages' data-slide-to='0' class='active')
-                        else
-                            li(data-target='#prodImages' data-slide-to='#{index}' )
+                if (product.photos.length>1)
+                    ol.carousel-indicators
+                        each img, index in product.photos
+                            if(index==0)
+                                li(data-target='#prodImages' data-slide-to='0' class='active')
+                            else
+                                li(data-target='#prodImages' data-slide-to='#{index}' )
                 div.carousel-inner(role='listbox')
                     each img, index in product.photos
                         if (index==0) 
@@ -30,12 +32,13 @@ block content
                             div.item
                                 img(src='#{img.url}' )
                                 div.carousel-caption= img.description
-                a.left.carousel-control(href='#prodImages' role='button' data-slide='prev')
-                    span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
-                    span.sr-only Previous
-                a.right.carousel-control(href='#prodImages' role='button' data-slide='next')
-                    span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
-                    span.sr-only Next
+                if (product.photos.length>1)
+                    a.left.carousel-control(href='#prodImages' role='button' data-slide='prev')
+                        span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+                        span.sr-only Previous
+                    a.right.carousel-control(href='#prodImages' role='button' data-slide='next')
+                        span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+                        span.sr-only Next
 
         
         .col-xs-12.col-sm-6

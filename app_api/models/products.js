@@ -7,7 +7,7 @@ var photoSchema=new mongoose.Schema({
 		default: "http://placehold.it/140x100"
 	},
 	description:String
-});
+}, {_id:false});
 
 var propertySchema=new mongoose.Schema({
 	sortOrder: Number,
@@ -15,7 +15,7 @@ var propertySchema=new mongoose.Schema({
 		name: String,
 		value: mongoose.Schema.Types.Mixed
 	}
-});
+}, {_id:false});
 
 var reviewSchema=new mongoose.Schema({
 	userName: String,
@@ -33,6 +33,10 @@ var reviewSchema=new mongoose.Schema({
 });
 
 var productSchema = new mongoose.Schema({
+	vendorCode: {
+		type: String,
+		required: true
+	},
 	name: {
 		type: String,
 		required: true

@@ -5,7 +5,7 @@ var ctrlOther = require('../controllers/others');
 
 /* GET product related pages. */
 router.get('/', ctrlProducts.homeList);
-router.get('/product', ctrlProducts.productInfo);
+router.get('/product/:productid', ctrlProducts.productInfo);
 router.get('/product/review/new', ctrlProducts.addReview);
 
 /* GET Others pages */

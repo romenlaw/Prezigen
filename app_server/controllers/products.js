@@ -1,4 +1,32 @@
-﻿var products=[
+﻿var request=require('request');
+var apiOptions = {
+	server : "http://localhost:3000"
+};
+if(process.env.NODE_ENV==='production') {
+	apiOptions.server = "https://young-lowlands-74303.herokuapp.com";
+}
+
+var _showError = function (req, res, status) {
+  var title, content;
+  if (status === 404) {
+    title = "404, page not found";
+    content = "Oh dear. Looks like we can't find this page. Sorry.";
+  } else if (status === 500) {
+    title = "500, internal server error";
+    content = "How embarrassing. There's a problem with our server.";
+  } else {
+    title = status + ", something's gone wrong";
+    content = "Something, somewhere, has gone just a little bit wrong.";
+  }
+  res.status(status);
+  res.render('generic-text', {
+    title : title,
+    content : content
+  });
+};
+
+
+var products=[
 	{
 		name : 'Personalised Chocolate',
 		sku : 'sji0934827',
@@ -60,26 +88,83 @@
 	}
 ];
 
+var renderHomepage = function(req, res, responseBody){
+  var message;
+  if (!(responseBody instanceof Array)) {
+    message = "API lookup error";
+    responseBody = [];
+  } else {
+    if (!responseBody.length) {
+      message = "No matching products found";
+    }
+  }
+  res.render('products-list', {
+    title: 'Prezigen - perfect gift',
+    pageHeader: {
+      title: 'Prezigen',
+      strapline: 'Find that perfect gift for the special someone...'
+    },
+    sidebar: "Looking for perfect gift ideas for someone special? Prezigen is a one-stop shop solution designed to build a character profile for the gift receiver and generate specialized tailored gifts for purchase all from the one convenient location.",
+    products: responseBody,
+    message: message
+  });
+};
+
+
 /* GET home/product list page */
 module.exports.homeList = function (req, res) {
-    res.render('products-list', { title: 'Prezigen - perfect gift',
-    	pageHeader : {
-    		title: 'Prezigen',
-    		strapline: 'find that perfect gift for the special someone.'
-    	},
-    	products
-    });
+	var requestOptions, path;
+  	path = '/api/products';
+	requestOptions = {
+		url : apiOptions.server + path,
+		method : "GET",
+		json : {},
+		qs : {}
+	};
+  	request(
+    	requestOptions,
+    	function(err, response, body) {
+    		//console.log("body:"+body);
+      		var data = body;
+      		renderHomepage(req, res, data);
+    	}
+  	);
 }
 
-var product=products[0];
-/* GET product info page */
-module.exports.productInfo = function (req, res) {
+var renderProductPage=function(req, res, responseBody) {
+	//console.log("product="+JSON.stringify(responseBody[0]));
+	var message, product;
+	if(!responseBody) {
+		message="Cannot find productid";
+	} else {
+		product=responseBody;
+	}
+
     res.render('product-info', { title: product.name,
     	pageHeader : {
     		title: product.name
     	},
-    	product 
+    	message: message,
+    	product
     });
+}
+/* GET product info page */
+module.exports.productInfo = function (req, res) {
+	//console.log("productInfo: params="+req.query.id);
+	var requestOptions, path;
+  	path = '/api/products/'+req.params.productid;
+	requestOptions = {
+		url : apiOptions.server + path,
+		method : "GET",
+		json : {}
+	};
+	request(
+		requestOptions,
+		function(err, response, body) {
+			console.log("body="+body);
+			renderProductPage(req, res, body);
+		}
+	);
 }
 /* GET add review page */
 module.exports.addReview = function (req, res) {
