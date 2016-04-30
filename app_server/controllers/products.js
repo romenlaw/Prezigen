@@ -88,7 +88,8 @@ var products=[
 	}
 ];
 
-var renderHomepage = function(req, res, responseBody){
+var renderProductList = function (req, res){ //, responseBody){
+    /*
   var message;
   if (!(responseBody instanceof Array)) {
     message = "API lookup error";
@@ -98,6 +99,7 @@ var renderHomepage = function(req, res, responseBody){
       message = "No matching products found";
     }
   }
+     */
   res.render('products-list', {
     title: 'Prezigen - perfect gift',
     pageHeader: {
@@ -105,14 +107,15 @@ var renderHomepage = function(req, res, responseBody){
       strapline: 'Find that perfect gift for the special someone...'
     },
     sidebar: "Looking for perfect gift ideas for someone special? Prezigen is a one-stop shop solution designed to build a character profile for the gift receiver and generate specialized tailored gifts for purchase all from the one convenient location.",
-    products: responseBody,
-    message: message
+    //products: responseBody,
+    //message: message
   });
 };
 
 
 /* GET home/product list page */
-module.exports.homeList = function (req, res) {
+module.exports.productList = function (req, res) {
+    /*
 	var requestOptions, path;
   	path = '/api/products';
 	requestOptions = {
@@ -128,7 +131,8 @@ module.exports.homeList = function (req, res) {
       		var data = body;
       		renderHomepage(req, res, data);
     	}
-  	);
+  	);*/
+    renderProductList(req, res);
 }
 
 var renderProductPage=function(req, res, responseBody) {
@@ -165,6 +169,9 @@ module.exports.productInfo = function (req, res) {
 			renderProductPage(req, res, body);
 		}
 	);
+}
+module.exports.productInfoMockup=function(req, res) {
+	renderProductPage(req, res, products[0]);
 }
 /* GET add review page */
 module.exports.addReview = function (req, res) {

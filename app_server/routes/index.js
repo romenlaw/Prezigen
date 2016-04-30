@@ -4,7 +4,9 @@ var ctrlProducts = require('../controllers/products');
 var ctrlOther = require('../controllers/others');
 
 /* GET product related pages. */
-router.get('/', ctrlProducts.homeList);
+router.get('/', ctrlOther.home);
+router.get('/products', ctrlProducts.productList);
+router.get('/product', ctrlProducts.productInfoMockup);
 router.get('/product/:productid', ctrlProducts.productInfo);
 router.get('/product/review/new', ctrlProducts.addReview);
 

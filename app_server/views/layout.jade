@@ -1,6 +1,8 @@
 doctype html
-html
+html(ng-app='prezigen')
   head
+    script(src='/angular/angular.min.js')
+    script(src='/angular/prezigen.js')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title= title
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
@@ -35,6 +37,18 @@ html
                 ul.nav.navbar-nav
                     li
                         a(href='/about/') About
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href='#')
+                            span.glyphicon.glyphicon-user
+                            |&nbsp;Sign Up
+                    li
+                        a(href='#')
+                            span.glyphicon.glyphicon-log-in
+                            |&nbsp; Login
+                    li
+                        a(href='#')
+                            span.glyphicon.glyphicon-search
     .container
         block breadcrumb
     .container
