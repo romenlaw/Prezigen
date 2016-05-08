@@ -1,6 +1,6 @@
 angular.module('prezigen', []);
 
-var productListCtrl = function ($scope){
+var productListCtrlMockup = function ($scope){
     $scope.data = {
         products: [
             {
@@ -71,11 +71,36 @@ var ratingStars = function () {
     scope: {
       thisRating : '=rating'
     },
-    // template : "{{ thisRating }}"
     templateUrl: '/angular/rating-stars.html'
   };
 };
+var productListCtrl = function ($scope, prezigenData){
+    $scope.message ="Searching for products...";
+    prezigenData.products()
+    .success(function(data){
+        $scope.message=data.length>0 ? "" : "No presents found.";
+        $scope.data={ products : data};
+    }).error(function(e) {
+        $scope.message = "Sorry, something's gone wrong."
+        console.log(e);
+    });
+}
+
+var prezigenData = function ($http) {
+    var products = function () {
+        return $http.get('/api/products');
+    };
+    var productById = function (id) {
+        return $http.get('/api/products/' + id);
+    };
+    return {
+        products: products,
+        productById : productById
+    };
+}
+
 angular.module('prezigen')
     .controller('productListCtrl', productListCtrl)
     .directive('ratingStars', ratingStars)
+    .service('prezigenData', prezigenData)
     ;

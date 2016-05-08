@@ -106,7 +106,7 @@ var renderProductList = function (req, res){ //, responseBody){
       title: 'Prezigen',
       strapline: 'Find that perfect gift for the special someone...'
     },
-    sidebar: "Looking for perfect gift ideas for someone special? Prezigen is a one-stop shop solution designed to build a character profile for the gift receiver and generate specialized tailored gifts for purchase all from the one convenient location.",
+    sidebar: "Looking for perfect gift ideas for someone special? Prezigen is a one-stop shop solution designed to build a character profile for the gift receiver and generate specialized tailored gifts for purchase all from the one convenient location."
     //products: responseBody,
     //message: message
   });
@@ -173,7 +173,18 @@ module.exports.productInfo = function (req, res) {
 module.exports.productInfoMockup=function(req, res) {
 	renderProductPage(req, res, products[0]);
 }
+var renderReviewForm = function(req, res, product) {
+	res.render('product-review-form', { 
+		title: 'Review '+product.name+' on Prezigen' ,
+		pageHeader: { title: 'Review '+product.name},
+		error: req.query.err,
+		url: req.originalUrl
+	});
+}
 /* GET add review page */
 module.exports.addReview = function (req, res) {
-    res.render('product-review-form', { title: 'Add Review' });
+    //renderReviewForm(req, res, )
+    res.render('product-review-form', { 
+		title: 'Review' 
+	});
 }

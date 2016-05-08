@@ -1,0 +1,24 @@
+﻿<div id="banner" class="page-header">
+</div>
+<div class="row" ng-app="preziAdmin" ng-controller="suppliersCtrl">
+    <div class="row">
+        <button class="btn btn-primary">Create New Supplier</button>
+        <button class="btn btn-danger" ng-disabled="selectionCount<=0">Delete Selected Supplier</button>
+    </div>
+    <table class="table table-striped table-condensed">
+        <tr>
+            <th><input type="checkbox" value="">{{selectionCount}}</th>
+            <th>name</th>
+            <th>status</th>
+            <th>email</th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="s in suppliers">
+            <td><input type="checkbox" ng-model="a" ng-change="checkBoxChanged(a)"></td>
+            <td>{{ s.name }}</td>
+            <td>{{ s.status }}</td>
+            <td>{{ s.email }}</td>
+            <td><button class="btn btn-primary btn-xs" ng-show="a">Edit</button></td>
+        </tr>
+    </table>
+</div>
