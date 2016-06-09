@@ -1,0 +1,9 @@
+﻿<div class="form-group form-group-sm" ng-repeat="tag in tags track by $index">
+    <label class="control-label col-xs-3">Tag:</label>
+    <div class="col-xs-6">
+        <input class="form-control input-sm" ng-model="tags[$index]" />
+    </div>
+    <div class="col-xs-3">
+        <button class="btn btn-sm" ng-click="tags.splice(tags.indexOf(tag),1)">Delete Tag</button>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="preziAdmin">
+<head>
+    <meta charset="utf-8" />
+    <script src="/angular/angular.min.js"></script>
+    <script src="/angular/angular-route.min.js"></script>
+    <script src="/app.js"></script>
+    <script src="/common/directives/tabs/tabs.directive.js"></script>
+    <script src="/common/directives/addressform/addressform.directive.js"></script>
+    <script src="/common/directives/personform/personform.directive.js"></script>
+    <script src="/common/directives/tagform/tagform.directive.js"></script>
+    <script src="/home/home.controller.js"></script>
+    <script src="/suppliers/suppliers.controller.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PreziAdmin</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/images/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="/" class="navbar-brand">PreziAdmin</a>
+                <button type="button" data-toggle="collapse" data-target="#navbar-main" class="navbar-toggle">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div id="navbar-main" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Dashboard</a></li>
+                    <li class="dropdown"><a data-toggle="dropdown" href="" class="dropdown-toggle">Manage<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#/suppliers">Suppliers</a></li>
+                            <li><a href="#">Products</a></li>
+                            <li><a href="#">Customers</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Reports</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-log-out"></span>&nbsp; Logout</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container"></div>
+    <div class="container">
+        <div ng-view></div>
+        <footer>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <small>Terms &amp; Conditions |</small>&nbsp;<small>Privacy |</small>&nbsp;
+                </div>
+                <div class="col-xs-12 col-sm-6 text-right">
+                    <small>&copy; Prezigen 2016. All rights reserved.</small>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="/javascripts/jquery-2.2.2.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

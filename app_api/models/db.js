@@ -50,5 +50,6 @@ if(process.platform==='win32') {
 	});
 };
 */
-
+require("./suppliers.js");
 require("./products.js");
+require("./users.js");

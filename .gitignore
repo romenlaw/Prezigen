@@ -52,3 +52,6 @@ Temporary Items
 *.njsproj
 *.sln
 *.dll
+
+# Environment variables
+.env

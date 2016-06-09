@@ -1,4 +1,7 @@
-﻿angular.module('preziAdmin')
+﻿(function () {
+
+
+angular.module('preziAdmin')
 .controller('homeCtrl', homeCtrl);
 
 function homeCtrl($scope){
@@ -10,3 +13,5 @@ function homeCtrl($scope){
         content: "looking for presents? look no further than Prezigen"
     };
 }
+
+})();

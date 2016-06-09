@@ -1,0 +1,26 @@
+﻿<div class="form-group form-group-sm" ng-repeat="address in addresses">
+    <label class="control-label col-xs-2">Address:</label>
+    
+    <div class="col-xs-10">
+        <input class="form-control input-sm" ng-model="address.line1" />
+        <input class="form-control input-sm" ng-model="address.line2" />
+    </div>
+    <div class="col-xs-2">
+        <button class="btn btn-sm" ng-click="addresses.splice(addresses.indexOf(address),1)">Delete Address</button>
+    </div>
+    <label class="control-label col-xs-2">Suburb:</label>
+    <div class="col-xs-8">
+        <input class="form-control input-sm" ng-model="address.suburb" />
+    </div>
+    <div class="col-xs-2"></div>
+    <label class="control-label col-xs-2">State:</label>
+    <div class="col-xs-3">
+        <select class="form-control input-sm" ng-model="address.state"
+                ng-options="x for x in ['NSW', 'ACT', 'NT', 'SA', 'VIC', 'WA']">
+        </select>
+    </div>
+    <label for="postcode" class="control-label col-xs-2">Postcode:</label>
+    <div class="col-xs-3">
+        <input class="form-control input-sm" ng-model="address.postcode" />
+    </div>
+</div>

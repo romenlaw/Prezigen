@@ -1,0 +1,39 @@
+﻿<div class="form-group form-group-sm" ng-repeat="contact in persons">
+    <label class="control-label col-xs-2">Name:</label>
+    <div class="col-xs-5">
+        <input class="form-control input-sm" ng-model="contact.fullName"/>
+    </div>
+
+    <label class="control-label col-xs-2">Gender:</label>
+    <div class="col-xs-3">
+        <select class="form-control input-sm" ng-model="contact.gender" >
+            <option>Male</option>
+            <option>Female</option>
+            <option>Unknown</option>
+        </select>
+    </div>
+
+    <label class="control-label col-xs-2">Phone:</label>
+    <div class="col-xs-4">
+        <input class="form-control input-sm" ng-model="contact.phoneNumber"/>
+    </div>
+
+    <label class="control-label col-xs-2">Mobile:</label>
+    <div class="col-xs-4">
+        <input class="form-control input-sm" ng-model="contact.mobileNumber"/>
+    </div>
+
+    <label class="control-label col-xs-2">Email:</label>
+    <div class="col-xs-10">
+        <input class="form-control input-sm" ng-model="contact.email"/>
+    </div>
+
+    <span class="col-xs-2">
+        <label class="control-label">Remark:</label>
+        <button class="btn" ng-click="persons.splice(persons.indexOf(contact),1)">Delete</button>
+    </span>
+    
+    <div class="col-xs-10">
+        <textarea class="form-control input-sm" rows="3" ng-model="contact.remarks"></textarea>
+    </div>
+</div>

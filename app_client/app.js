@@ -1,6 +1,11 @@
-﻿angular.module('preziAdmin', ['ngRoute']);
+﻿(function () {
 
-function config($routeProvider) {
+
+angular.module('preziAdmin', ['ngRoute']);
+    
+    config.$inject = ['$routeProvider', '$locationProvider'];
+
+function config($routeProvider, $locationProvider) {
     $routeProvider
     .when('/', {
         templateUrl: 'home/home.view.html',
@@ -11,8 +16,13 @@ function config($routeProvider) {
         constructor: 'suppliersCtrl'
     })
     .otherwise({ redirectTo: '/' });
+    //$locationProvider.html5Mode(true);
 }
 
 angular
 .module('preziAdmin')
-.config(['$routeProvider', config]);
+.config(['$routeProvider', '$locationProvider', config])
+
+;
+
+})();
