@@ -54,8 +54,6 @@
                 </td>
             </tr>
         </table>
-        <div class="row">{{supplier}}</div>
-        <div class="row">{{formError}}</div>
     </div>
     <!-- tabs for form for suppliers ---------------------------------------------->
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 well" >
@@ -63,9 +61,8 @@
             <div class="text-right">
                 <button class="btn btn-primary" ng-disabled="!(supplierForm.$dirty)" ng-click="createSupplier()">Save As New Supplier</button>
                 <button class="btn btn-md" ng-disabled="!(supplierForm.$dirty)" ng-click="cancelEdit()">Cancel</button>
-                <button class="btn btn-md" ng-disabled="!(supplierForm.$dirty)">Save Changes</button>
+                <button class="btn btn-md" ng-disabled="!(supplierForm.$dirty) || suppliers.length===0" ng-click="updateSupplier()">Save Changes</button>
             </div>
-            <div class="row">:{{formError}}</div>
             <tabset>
                 <tab heading="Details">
                     <br />

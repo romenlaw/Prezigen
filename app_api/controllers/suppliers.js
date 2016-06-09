@@ -53,7 +53,7 @@ module.exports.suppliersDeleteOne = function (req, res) {
 module.exports.suppliersUpdateOne = function (req, res) {
     if (!req.params.supplierid) {
         sendJsonResponse(res, 404, {
-            "message" : "Not found, supplierid is required"
+            "message" : "Not found, supplierid is required"+req.params
         });
         return;
     }
@@ -69,12 +69,20 @@ module.exports.suppliersUpdateOne = function (req, res) {
             sendJsonResponse(res, 400, err);
             return;
         }
-        supplier.name = req.body.name;
-        supplier.save(function (err, product) {
+        var s = req.body.supplier;
+        supplier.name = s.name;
+        supplier.abn = s.abn;
+        supplier.status = s.status;
+        supplier.description = s.description;
+        supplier.tags = s.tags;
+        supplier.email = s.email;
+        supplier.addresses = s.addresses;
+        supplier.contacts = s.contacts;
+        supplier.save(function (err, supplier) {
             if (err) {
                 sendJsonResponse(res, 404, err);
             } else {
-                sendJsonResponse(res, 200, product);
+                sendJsonResponse(res, 200, supplier);
             }
         });
     });

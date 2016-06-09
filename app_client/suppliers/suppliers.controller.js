@@ -9,7 +9,7 @@
         //$scope.editing = false;
         $scope.mode = 'view'; // one of 'view', 'create', 'edit'
         $scope.selectedAll = false;
-        $scope.supplier = {};
+        $scope.supplier = { tags:['misc']};
         $scope.formError = "";
         // find all suppliers from database
         $http.get("/api/suppliers")
@@ -98,6 +98,26 @@
                 $scope.formError = "Cannot create new Suppier: " + data;
             });
         }
+        $scope.updateSupplier = function () {
+            var supplier = $scope.supplier;
+            //console.log("updating supplier: " + supplier);
+
+            $http.put('/api/suppliers/' + supplier._id, { "supplier": supplier })
+            .then(function successCallback(response){
+                console.log("updating supplier: success");
+                var suppliers = $scope.suppliers;
+                for (i in suppliers) {
+                    var s = suppliers[i];
+                    if (supplier._id === s._id) {
+                        suppliers[i] = JSON.parse(JSON.stringify(supplier));
+                    }
+                    break;
+                }
+                setPristine($scope.supplierForm);
+            }, function errorCallback(response){
+                $scope.formError = "Cannot update Suppier: " + response.status+":"+response.data.message;
+            });
+        }
         $scope.deleteSelected = function () {
             var count = 0;
             var selectionCount = $scope.selectionCount;
@@ -135,7 +155,7 @@
             }
         }
         var deleteFromDisplay = function (id) {
-            console.log("working on " + id);
+            //console.log("working on " + id);
             var suppliers = $scope.suppliers;
             for (i in suppliers) {
                 var s = suppliers[i];
