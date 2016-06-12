@@ -62,6 +62,7 @@
                     break;
                 }
             }
+            setPristine($scope.supplierForm);
         }
         $scope.addContact = function () {
             var supplier = $scope.supplier;
