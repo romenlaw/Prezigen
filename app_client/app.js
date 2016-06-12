@@ -1,7 +1,7 @@
 ﻿(function () {
 
 
-angular.module('preziAdmin', ['ngRoute']);
+angular.module('preziAdmin', ['ngRoute', 'angularUtils.directives.dirPagination']);
     
     config.$inject = ['$routeProvider', '$locationProvider'];
 

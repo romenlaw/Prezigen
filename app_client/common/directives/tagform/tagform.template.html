@@ -1,7 +1,7 @@
 ﻿<div class="form-group form-group-sm" ng-repeat="tag in tags track by $index">
     <label class="control-label col-xs-3">Tag:</label>
     <div class="col-xs-6">
-        <input class="form-control input-sm" ng-model="tags[$index]" required/>
+        <input class="form-control input-sm" ng-model="tags[$index]" placeholder="e.g. big-partner" required/>
     </div>
     <div class="col-xs-3">
         <button class="btn btn-sm" ng-show="$index>0" ng-click="tags.splice(tags.indexOf(tag),1)">Delete Tag</button>

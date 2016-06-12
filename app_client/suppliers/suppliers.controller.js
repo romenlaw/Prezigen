@@ -5,11 +5,13 @@
     
     suppliersCtrl.$inject = ['$scope', '$http'];
     function suppliersCtrl($scope, $http) {
+        $scope.currentPage = 1;
+        $scope.pageSize = 10;
         $scope.selectionCount = 0;
         //$scope.editing = false;
         $scope.mode = 'view'; // one of 'view', 'create', 'edit'
         $scope.selectedAll = false;
-        $scope.supplier = { tags:['misc']};
+        $scope.supplier = { tags:['']};
         $scope.formError = "";
         // find all suppliers from database
         $http.get("/api/suppliers")
@@ -80,7 +82,7 @@
             if (!supplier.tags) {
                 supplier.tags = [];
             }
-            supplier.tags.push('tag-value');
+            supplier.tags.push('');
         }
         $scope.createSupplier = function () {
             var supplier = $scope.supplier;
@@ -110,8 +112,8 @@
                     var s = suppliers[i];
                     if (supplier._id === s._id) {
                         suppliers[i] = JSON.parse(JSON.stringify(supplier));
+                        break;
                     }
-                    break;
                 }
                 setPristine($scope.supplierForm);
             }, function errorCallback(response){
