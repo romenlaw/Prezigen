@@ -33,14 +33,22 @@ var reviewSchema=new mongoose.Schema({
 });
 
 var productSchema = new mongoose.Schema({
-	vendorCode: {
+	supplierId: {
 		type: String,
 		required: true
-	},
+    },
+    supplierName: {
+        type: String,
+        required: true
+    },
 	name: {
 		type: String,
 		required: true
-	},
+    },
+    status: {
+        type: String,
+        required: true
+    },
 	sku: {
 		type: String,
 		required: true

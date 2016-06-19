@@ -1,33 +1,33 @@
 ﻿(function () {
     angular.module('preziAdmin')
-.controller('suppliersCtrl', suppliersCtrl)
+.controller('productsCtrl', productsCtrl)
     ;
     
-    suppliersCtrl.$inject = ['$scope', '$http', 'sharedData'];
-    function suppliersCtrl($scope, $http, sharedData) {
+    productsCtrl.$inject = ['$scope', '$http', 'sharedData'];
+    function productsCtrl($scope, $http, sharedData) {
+        $scope.suppliers = sharedData.getSuppliers();
+        $scope.$watch(
+            function () { return sharedData.getSuppliers(); }, 
+            function (newValue, oldValue) {
+                if (newValue !== oldValue) $scope.suppliers = newValue;
+        });
         $scope.currentPage = 1;
         $scope.pageSize = 10;
         $scope.selectionCount = 0;
         //$scope.editing = false;
         $scope.mode = 'view'; // one of 'view', 'create', 'edit'
         $scope.selectedAll = false;
-        $scope.supplier = { tags:['']};
+        $scope.product = { tags:['']};
         $scope.formError = "";
-        // find all suppliers from database
-        /*
-        $http.get("/api/suppliers")
+        // find all products from database
+        $http.get("/api/products")
             .then(function successCallback(response) {
-            $scope.suppliers = response.data;
-            sharedData.setSuppliers(response.data);
+            $scope.products = response.data;
         },
             function errorCallback(response) {
-            console.log("error finding all suppliers " + response);
-        });*/
-        $scope.suppliers = sharedData.getSuppliers();
-        $scope.$watch('suppliers', function (newValue, oldValue) {
-            if (newValue !== oldValue) sharedData.setSuppliers(newValue);
+            console.log("error finding all products " + response);
         });
-
+        
         $scope.checkBoxChanged = function (selected) {
             if (selected)
                 $scope.selectionCount++;
@@ -37,92 +37,92 @@
         $scope.selectAll = function () {
             if ($scope.selectedAll) {
                 $scope.selectedAll = true;
-                $scope.selectionCount = $scope.suppliers.length;
+                $scope.selectionCount = $scope.products.length;
             } else {
                 $scope.selectedAll = false;
                 $scope.selectionCount = 0;
             }
-            angular.forEach($scope.suppliers, function (supplier) {
-                supplier.selected = $scope.selectedAll;
+            angular.forEach($scope.products, function (product) {
+                product.selected = $scope.selectedAll;
             });
         }
-        $scope.view = function (supplier) {
-            $scope.edit(supplier);
+        $scope.view = function (product) {
+            $scope.edit(product);
             $scope.mode = 'view';
         }
-        $scope.edit = function (supplier) {
+        $scope.edit = function (product) {
             /*
-            if ($scope.supplier) {
-                $scope.supplier.isCurrent = false;
+            if ($scope.product) {
+                $scope.product.isCurrent = false;
             };*/
             $scope.mode = 'edit';
-            //supplier.isCurrent = true;
-            //$scope.supplier = supplier;
-            $scope.supplier = JSON.parse(JSON.stringify(supplier)); // make a copy instead
+            //product.isCurrent = true;
+            //$scope.product = product;
+            $scope.product = JSON.parse(JSON.stringify(product)); // make a copy instead
         }
         $scope.cancelEdit = function () {
-            var supplier = $scope.supplier;
-            for (s of $scope.suppliers) {
-                if(s._id===supplier._id) {
-                    $scope.supplier=JSON.parse(JSON.stringify(s));
+            var product = $scope.product;
+            for (p of $scope.products) {
+                if(p._id===product._id) {
+                    $scope.product=JSON.parse(JSON.stringify(p));
                     break;
                 }
             }
-            setPristine($scope.supplierForm);
+            setPristine($scope.productForm);
         }
         $scope.addContact = function () {
-            var supplier = $scope.supplier;
-            if (!supplier.contacts) {
-                supplier.contacts = [];
+            var product = $scope.product;
+            if (!product.photos) {
+                product.photos = [];
             }
-            supplier.contacts.push({});
+            product.photos.push({ });
         }
-        $scope.addAddress = function () {
-            var supplier = $scope.supplier;
-            if (!supplier.addresses) {
-                supplier.addresses = [];
+        $scope.addPhoto = function () {
+            var product = $scope.product;
+            if (!product.photos) {
+                product.photos = [];
             }
-            supplier.addresses.push({});
+            product.photos.push({ url: '', description: ''});
         }
         $scope.addTag = function () {
-            var supplier = $scope.supplier;
-            if (!supplier.tags) {
-                supplier.tags = [];
+            var product = $scope.product;
+            if (!product.tags) {
+                product.tags = [];
             }
-            supplier.tags.push('');
+            product.tags.push('');
         }
-        $scope.createSupplier = function () {
-            var supplier = $scope.supplier;
-            delete supplier._id;
-            console.log("creating supplier: after delete id" + supplier);
+        $scope.createproduct = function () {
+            var product = $scope.product;
+            delete product._id;
+            console.log("creating product: after delete id" + product);
             
-            $http.post('/api/suppliers', { "supplier": supplier })
+            $http.post('/api/products', { "product": product })
             .success(function (data) {
                 //$scope.formError = "Successfully created new Suppier.";
-                $scope.suppliers.push(data);
-                $scope.supplier = JSON.parse(JSON.stringify(data));
-                setPristine($scope.supplierForm);
+                $scope.products.push(data);
+                $scope.product = JSON.parse(JSON.stringify(data));
+                setPristine($scope.productForm);
             })
             .error(function (data) {
                 $scope.formError = "Cannot create new Suppier: " + data;
             });
         }
-        $scope.updateSupplier = function () {
-            var supplier = $scope.supplier;
-            //console.log("updating supplier: " + supplier);
+        $scope.updateproduct = function () {
+            var product = $scope.product;
+            //console.log("updating product: " + product);
 
-            $http.put('/api/suppliers/' + supplier._id, { "supplier": supplier })
+            $http.put('/api/products/' + product._id, { "product": product })
             .then(function successCallback(response){
-                console.log("updating supplier: success");
-                var suppliers = $scope.suppliers;
-                for (i in suppliers) {
-                    var s = suppliers[i];
-                    if (supplier._id === s._id) {
-                        suppliers[i] = JSON.parse(JSON.stringify(supplier));
+                console.log("updating product: success");
+                var products = $scope.products;
+                for (i in products) {
+                    var s = products[i];
+                    if (product._id === s._id) {
+                        products[i] = JSON.parse(JSON.stringify(product));
                         break;
                     }
                 }
-                setPristine($scope.supplierForm);
+                setPristine($scope.productForm);
             }, function errorCallback(response){
                 $scope.formError = "Cannot update Suppier: " + response.status+":"+response.data.message;
             });
@@ -130,17 +130,17 @@
         $scope.deleteSelected = function () {
             var count = 0;
             var selectionCount = $scope.selectionCount;
-            var suppliers = $scope.suppliers;
+            var products = $scope.products;
             if (selectionCount < 1)
                 return;
             //$scope.formError = "deleting selected " + $scope.selectionCount;
-            for (i in suppliers) {
-                var s = suppliers[i];
+            for (i in products) {
+                var s = products[i];
                 if (s.selected) {
-                    $http.delete("/api/suppliers/" + s._id)
+                    $http.delete("/api/products/" + s._id)
                     .then(function successCallback(response) {
-                        //$scope.formError = "success:"+ response.headers()['supplierid'];
-                        deleteFromDisplay(response.headers()['supplierid']);
+                        //$scope.formError = "success:"+ response.headers()['productid'];
+                        deleteFromDisplay(response.headers()['productid']);
                         
                         count++;
                     },
@@ -150,7 +150,7 @@
                     /*
                     .success(function(data, status, headers, config) {
                         $scope.formError = "success:"+headers;
-                        //deleteFromDisplay(response.getHeader("supplierid"));
+                        //deleteFromDisplay(response.getHeader("productid"));
                         
                         count++;
                     })
@@ -165,21 +165,21 @@
         }
         var deleteFromDisplay = function (id) {
             //console.log("working on " + id);
-            var suppliers = $scope.suppliers;
-            for (i in suppliers) {
-                var s = suppliers[i];
-                if ($scope.supplier._id === s._id) {
-                    $scope.supplier = {};
+            var products = $scope.products;
+            for (i in products) {
+                var s = products[i];
+                if ($scope.product._id === s._id) {
+                    $scope.product = {};
                 }
                 if (s._id === id) {
-                    //suppliers.splice(i, 1);
+                    //products.splice(i, 1);
                     s._id = null;
                 }
             }
         };
         //////////////////////////////////////////////////////////////////////////////////
         /*
-        $scope.suppliers = [
+        $scope.products = [
             {
                 _id: "989803282",
                 name: "ABC Co.",
@@ -214,7 +214,7 @@
                 name: "Babys R Us",
                 abn: '928282394333',
                 status: 'Active',
-                description: "supplier for infant and parenting needs",
+                description: "product for infant and parenting needs",
                 tags: ['baby', 'parent'],
                 addresses: [
                     {

@@ -1,0 +1,14 @@
+﻿<div class="form-group form-group-sm" ng-repeat="photo in photos track by $index">
+    <label class="control-label col-xs-2">URL:</label>
+    <div class="col-xs-10">
+        <input class="form-control input-sm" ng-model="photo.url" required/>
+    </div>
+
+    <label class="control-label col-xs-2">Description:</label>
+    <div class="col-xs-7">
+        <textarea class="form-control input-sm" rows="5" id="description" ng-model="photo.description"></textarea>
+    </div>
+    <div class="col-xs-3">
+        <button class="btn btn-sm" ng-show="$index>0" ng-click="photos.splice(photos.indexOf(photo),1)">Delete Photo</button>
+    </div>
+</div>
