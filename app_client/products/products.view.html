@@ -48,16 +48,18 @@
                            ng-model="selectedAll" ng-click="selectAll()"
                            data-toggle="tooltip" title="select all">
                 </th>
-                <th>name</th>
-                <th>status</th>
-                <th>supplier</th>
-                <th>price</th>
+                <th><a href="" ng-click="sortBy=(sortBy==='name' ? '-name' : 'name')">name</a></th>
+                <th><a href="" ng-click="sortBy=(sortBy==='rating' ? '-rating' : 'rating')">rating</a></th>
+                <th><a href="" ng-click="sortBy=(sortBy==='status' ? '-status':'status')">status</a></th>
+                <th><a href="" ng-click="sortBy=(sortBy==='supplierName' ? '-supplierName' : 'supplierName')">supplier</a></th>
+                <th><a href="" ng-click="sortBy=(sortBy==='price' ? '-price' : 'price')">price</a></th>
                 <th></th>
             </tr>
-            <tr dir-paginate="p in products | filter:{_id:''} | filter:{$: q}| orderBy: 'name' | itemsPerPage: pageSize" 
+            <tr dir-paginate="p in products | filter:{_id:''} | filter:{$: q}| orderBy: sortBy | itemsPerPage: pageSize" 
                 current-page="currentPage">
                 <td><input type="checkbox" ng-model="p.selected" ng-change="checkBoxChanged(p.selected)"></td>
                 <td>{{ p.name }}</td>
+                <td>{{ p.rating}}</td>
                 <td>{{ p.status }}</td>
                 <td>{{ p.supplierName }}</td>
                 <td>{{ p.price}}</td>
@@ -75,6 +77,7 @@
                 </dir-pagination-controls>
             </div>
         </div>
+        <div class="row">{{formError}}</div>
     </div>
     <!-- tabs for form for products ---------------------------------------------->
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 well" >
@@ -126,14 +129,14 @@
                         </div>
                         <label for="status" class="control-label col-xs-1">Price:</label>
                         <div class="col-xs-4">
-                            <input type="number" min="0" class="form-control input-sm" id="price" 
+                            <input type="number" min="0" step="any" class="form-control input-sm" id="price" 
                                    placeholder="e.g. 1.95" ng-model="product.price" required/>
                         </div>
                     </div>
                     <div class="form-group form-group-sm">
-                        <label for="email" class="control-label col-xs-3">Order URL:</label>
+                        <label for="orderUrl" class="control-label col-xs-3">Order URL:</label>
                         <div class="col-xs-9">
-                            <input type="email" class="form-control input-sm" id="orderUrl" ng-model="product.orderUrl" required>
+                            <input class="form-control input-sm" id="orderUrl" ng-model="product.orderUrl" required>
                         </div>
                     </div>
                     <div class="form-group form-group-sm">
@@ -157,17 +160,27 @@
                 </tab>
                 <tab heading="Properties">
                     <br />
-                    <personform persons="product.contacts"></personform>
+                    <propertyform properties="product.displayedProperties"></propertyform>
                     <div class="text-right">
-                        <button class="btn btn-md" ng-click="addContact()">Add A Display Property</button>
+                        <button class="btn btn-md" ng-click="addDisplayedProperty()">Add A Display Property</button>
                     </div>
-                    <br />
-                    <personform persons="product.contacts"></personform>
+                    <hr style="display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; "/>
+                    <propertyform properties="product.selectableProperties"></propertyform>
                     <div class="text-right">
-                        <button class="btn btn-md" ng-click="addContact()">Add A Selectable Property</button>
+                        <button class="btn btn-md" ng-click="addSelectableProperty()">Add A Selectable Property</button>
                     </div>
                 </tab>
                 <tab heading="Reviews">
+                    <div class="row" ng-repeat="review in product.reviews">
+                        <div class="review well well-sm review-header">
+                            <span class="rating" rating-stars rating="review.rating"></span>
+                            <span class="reviewAuthor">{{review.userName}}</span>
+                            <span class="reviewTimestamp">{{review.date}}</span>
+                        </div>
+                        <div class="col-xs-12">
+                            {{review.comment}}
+                        </div>
+                    </div>
                 </tab>
             </tabset>
         </form>

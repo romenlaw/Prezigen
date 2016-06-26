@@ -14,6 +14,7 @@
         $scope.currentPage = 1;
         $scope.pageSize = 10;
         $scope.selectionCount = 0;
+        $scope.sortBy = 'name';
         //$scope.editing = false;
         $scope.mode = 'view'; // one of 'view', 'create', 'edit'
         $scope.selectedAll = false;
@@ -23,11 +24,11 @@
         $http.get("/api/products")
             .then(function successCallback(response) {
             $scope.products = response.data;
+            calculateRatings($scope.products);
         },
             function errorCallback(response) {
             console.log("error finding all products " + response);
         });
-        
         $scope.checkBoxChanged = function (selected) {
             if (selected)
                 $scope.selectionCount++;
@@ -70,19 +71,26 @@
             }
             setPristine($scope.productForm);
         }
-        $scope.addContact = function () {
-            var product = $scope.product;
-            if (!product.photos) {
-                product.photos = [];
-            }
-            product.photos.push({ });
-        }
         $scope.addPhoto = function () {
             var product = $scope.product;
             if (!product.photos) {
                 product.photos = [];
             }
             product.photos.push({ url: '', description: ''});
+        }
+        $scope.addDisplayedProperty = function () {
+            var product = $scope.product;
+            if (!product.displayedProperties) {
+                product.displayedProperties = [];
+            }
+            product.displayedProperties.push({ sortOrder: product.displayedProperties.length+1, property: { name: '', value: '' } });
+        }
+        $scope.addSelectableProperty = function () {
+            var product = $scope.product;
+            if (!product.selectableProperties) {
+                product.selectableProperties = [];
+            }
+            product.selectableProperties.push({ sortOrder: product.selectableProperties.length+1, property: { name: '', value: '' } });
         }
         $scope.addTag = function () {
             var product = $scope.product;
@@ -91,29 +99,34 @@
             }
             product.tags.push('');
         }
-        $scope.createproduct = function () {
+
+        $scope.createProduct = function () {
             var product = $scope.product;
             delete product._id;
-            console.log("creating product: after delete id" + product);
+            product.reviews = [];
+            delete product.rating;
+            product.supplierName = getSupplierName(product.supplierId);
+            //console.log("creating product: after delete id" + product);
             
             $http.post('/api/products', { "product": product })
             .success(function (data) {
-                //$scope.formError = "Successfully created new Suppier.";
+                $scope.formError = "Successfully created new Product.";
                 $scope.products.push(data);
                 $scope.product = JSON.parse(JSON.stringify(data));
                 setPristine($scope.productForm);
             })
             .error(function (data) {
-                $scope.formError = "Cannot create new Suppier: " + data;
+                $scope.formError = "Cannot create new Product: " + JSON.stringify(data);
             });
         }
-        $scope.updateproduct = function () {
+        $scope.updateProduct = function () {
             var product = $scope.product;
+            product.supplierName = getSupplierName(product.supplierId);
             //console.log("updating product: " + product);
 
             $http.put('/api/products/' + product._id, { "product": product })
             .then(function successCallback(response){
-                console.log("updating product: success");
+                //console.log("updating product: success");
                 var products = $scope.products;
                 for (i in products) {
                     var s = products[i];
@@ -124,7 +137,7 @@
                 }
                 setPristine($scope.productForm);
             }, function errorCallback(response){
-                $scope.formError = "Cannot update Suppier: " + response.status+":"+response.data.message;
+                $scope.formError = "Cannot update product: " + JSON.stringify(response);
             });
         }
         $scope.deleteSelected = function () {
@@ -147,21 +160,27 @@
                     function errorCallback(response) {
                         //$scope.formError = "cannot delete " + s._id + ", " + response.headers;
                     });
-                    /*
-                    .success(function(data, status, headers, config) {
-                        $scope.formError = "success:"+headers;
-                        //deleteFromDisplay(response.getHeader("productid"));
-                        
-                        count++;
-                    })
-                    .error(function(data, status, headers, config) {
-                        $scope.formError = "cannot delete " + s._id + ", " + response.headers;
-                    });
-                     */ 
                 }
                 if (count == selectionCount)
                     break;
             }
+        }
+        var getSupplierName = function (id) {
+            //console.log("looking for supplier id:" + id);
+            //console.log("suppliers:" + $scope.suppliers.length);
+            if (!id) {
+                return '';
+            }
+            for (supplier of $scope.suppliers) {
+                //console.log("checking supplier:"+supplier._id.str);
+                if(!supplier.id) {
+                    supplier.id=supplier._id.toString();
+                }
+                if(supplier.id==id) {
+                    return supplier.name;
+                }
+            }
+            return '';
         }
         var deleteFromDisplay = function (id) {
             //console.log("working on " + id);
@@ -273,4 +292,15 @@
             });
         }
     };
+    var calculateRatings = function (products) {
+        if (products) {
+            for (p of products)
+                calculateRating(p);
+        }
+    }
+    var calculateRating = function (product) {
+        if (product.reviews.length > 0) {
+            product.reviews.map((c, i, arr)=> c.rating / arr.length).reduce((p, c) => c + p);
+        }
+    }
 })();

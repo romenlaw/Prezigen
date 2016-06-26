@@ -54,9 +54,9 @@ var productSchema = new mongoose.Schema({
 		required: true
 	},
 	price: {
-		type: String,
+		type: Number,
 		required: true,
-		default: "$1.95"
+		default: 1.95
 	},
 	orderUrl: {
 		type: String,

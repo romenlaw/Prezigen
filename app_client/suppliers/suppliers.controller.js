@@ -8,6 +8,7 @@
         $scope.currentPage = 1;
         $scope.pageSize = 10;
         $scope.selectionCount = 0;
+        $scope.sortBy = 'name';
         //$scope.editing = false;
         $scope.mode = 'view'; // one of 'view', 'create', 'edit'
         $scope.selectedAll = false;

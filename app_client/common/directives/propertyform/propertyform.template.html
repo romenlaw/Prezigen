@@ -1,0 +1,19 @@
+﻿<div class="form-group form-group-sm" ng-repeat="prop in properties | orderBy: 'sortOrder'">
+    <label class="control-label col-xs-2">sort order:</label>
+    <div class="col-xs-3">
+        <input type="number" min="1" class="form-control input-sm" ng-model="prop.sortOrder" required />
+    </div>
+    <div class="col-xs-7 text-right">
+        <button class="btn btn-sm" ng-click="properties.splice(properties.indexOf(prop),1)">Delete Property</button>
+    </div>
+
+    <label class="control-label col-xs-2">Name:</label>
+    <div class="col-xs-4">
+        <input class="form-control input-sm" ng-model="prop.property.name"/>
+    </div>
+    <label class="control-label col-xs-2">Value:</label>
+    <div class="col-xs-4">
+        <input class="form-control input-sm" placeholder="e.g. ['red', 'green', 'blue'] or sentences." ng-model="prop.property.value" />
+    </div>
+    
+</div>

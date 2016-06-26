@@ -49,12 +49,12 @@
                            ng-model="selectedAll" ng-click="selectAll()"
                            data-toggle="tooltip" title="select all">
                 </th>
-                <th>name</th>
-                <th>status</th>
-                <th>email</th>
+                <th><a href="" ng-click="sortBy=(sortBy==='name' ? '-name' : 'name')">name</a></th>
+                <th><a href="" ng-click="sortBy=(sortBy==='status'? '-status' : 'status')">status</a></th>
+                <th><a href="" ng-click="sortBy=(sortBy==='email' ? '-email':'email')">email</a></th>
                 <th></th>
             </tr>
-            <tr dir-paginate="s in suppliers | filter:{_id:''} | filter:{$: q}| orderBy: 'name' | itemsPerPage: pageSize" 
+            <tr dir-paginate="s in suppliers | filter:{_id:''} | filter:{$: q}| orderBy: sortBy | itemsPerPage: pageSize" 
                 current-page="currentPage">
                 <td><input type="checkbox" ng-model="s.selected" ng-change="checkBoxChanged(s.selected)"></td>
                 <td>{{ s.name }}</td>

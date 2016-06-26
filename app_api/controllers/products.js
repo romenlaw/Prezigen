@@ -13,30 +13,15 @@ module.exports.productsSearch=function(req, res) {
 	}) ;
 };
 module.exports.productsCreate=function(req, res) {
-	Prod.create({
-		vendorCode: req.body.vendorCode,
-		name : req.body.name,
-		sku : req.body.sku,
-		price : req.body.price,
-		orderUrl : req.body.orderUrl,
-		photos : [
-			{ url : req.body.photoUrl}
-		],
-		description : req.body.description,
-		tags : [req.body.tag],
-		displayedProperties : [
-			{ sortOrder: 1, property: {name: "Size", value : "1x1 sqm block on the moon"}}
-		],
-		selectableProperties : [
-			{ sortOrder:1, property: {name: "Name of land title", value : ""}}
-		]
-	}, function(err, product) {
-		if(err) {
-			sendJsonResponse(res, 400, err);
-		} else {
-			sendJsonResponse(res, 201, product);
-		}
-	});
+    console.log("api create:" + req.body.product);
+    Prod.create(req.body.product, function (err, product) {
+        console.log("api create:", err, product);
+        if (err) {
+            sendJsonResponse(res, 400, err);
+        } else {
+            sendJsonResponse(res, 201, product);
+        }
+    });
 };
 module.exports.productsReadOne=function(req, res) {
 	Prod.findById(req.params.productid)
@@ -64,8 +49,20 @@ module.exports.productsUpdateOne=function(req, res) {
 	 	} else if(err) {
 	 		sendJsonResponse(res, 400, err);
 	 		return;
-	 	}
-		product.name=req.body.name;
+        }
+        var p = req.body.product;
+        product.name = p.name;
+        product.supplierId = p.supplierId;
+        product.supplierName = p.supplierName;
+        product.status = p.status;
+        product.sku = p.sku;
+        product.price = p.price;
+        product.orderUrl = p.orderUrl;
+        product.description = p.description;
+        product.tags = p.tags;
+        product.displayedProperties = p.displayedProperties;
+        product.selectableProperties = p.selectableProperties;
+
 		product.save(function(err, product){
 			if(err) {
 				sendJsonResponse(res, 404, err);
@@ -75,20 +72,22 @@ module.exports.productsUpdateOne=function(req, res) {
 		});
 	});
 };
-module.exports.productsDeleteOne=function(req, res) {
-	var productid=req.params.productid;
-	if(productid) {
-		Prod.findByIdAndRemove(productid)
-		.exec(function(err, product) {
-			if(err) {
-				sendJsonResponse(res, 404, err);
-				return;
-			}
-			sendJsonResponse(res, 204, null);
-		});
-	} else {
-		sendJsonResponse(res, 404, {
-			message : "No productid"
-		});
-	}
+
+module.exports.productsDeleteOne = function (req, res) {
+    var productid = req.params.productid;
+    if (productid) {
+        Prod.findByIdAndRemove(productid)
+		.exec(function (err, product) {
+            if (err) {
+                sendJsonResponse(res, 404, err);
+                return;
+            }
+            res.setHeader("productid", productid);
+            sendJsonResponse(res, 204, null);
+        });
+    } else {
+        sendJsonResponse(res, 404, {
+            message : "No productid"
+        });
+    }
 };
